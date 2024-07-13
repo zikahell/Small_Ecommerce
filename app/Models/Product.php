@@ -1,7 +1,7 @@
 <?php
 
 
-class Product extends DB
+abstract class Product extends DB
 {
     protected $table;
     protected $conn;
@@ -13,5 +13,9 @@ class Product extends DB
     public function getAllProducts()
     {
         return $this->conn->get('employee');
+    }
+    public function store($table, $data)
+    {
+        return $this->conn->insert($table, $data);
     }
 }
