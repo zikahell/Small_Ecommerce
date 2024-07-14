@@ -13,29 +13,39 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-    $(document).on("submit", ".needs-validation", function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: "post",
-            url: "store",
-            data: $(this).serialize(),
-            dataType: "text",
-            success: function(response) {
-                if (response) {
-                    alert(response)
+        $(document).on("submit", ".needs-validation", function(e) {
+            e.preventDefault();
+            var $request;
+            $request = $.ajax({
+                type: "post",
+                url: "store",
+                data: $(this).serialize(),
+                dataType: "text",
+                success: function(response) {
+                    if (response === "SKU is already exist !" || response ===
+                        "Please, provide the data of indicated type" || response ===
+                        "Please, submit required data") {
+                        alert(response)
+
+                    } else {
+                        $request.abort()
+                        window.location.href = "<?php $url = (string) url('product');
+                                                $url = str_replace('test.local', '', $url);
+                                                echo $url;
+                                                ?>"
+                    }
                 }
-            }
+            });
         });
-    });
     </script>
     <style>
-    .hidden {
-        display: none;
-    }
+        .hidden {
+            display: none;
+        }
 
-    .error {
-        color: red;
-    }
+        .error {
+            color: red;
+        }
     </style>
 </head>
 
@@ -163,39 +173,30 @@
             <div id="type-specific">
                 <div id="size-section" class="form-group hidden">
                     <label for="size">Size (MB):</label>
-                    <input type="text" class="form-control" id="#size"
-                        <?php if ($productType == "DVD") echo "required"; ?> name="size" value="<?php echo $size; ?>">
+                    <input type="text" class="form-control" id="#size" <?php if ($productType == "DVD") echo "required"; ?> name="size" value="<?php echo $size; ?>">
                     <div class="invalid-feedback">Valid size is required</div>
                     <small class="form-text text-muted">Please, provide size</small>
                 </div>
                 <div id="weight-section" class="form-group hidden">
                     <label for="weight">Weight (Kg):</label>
-                    <input type="text" class="form-control" id="#weight"
-                        <?php if ($productType == "Book") echo "required"; ?> name="weight"
-                        value="<?php echo $weight; ?>">
+                    <input type="text" class="form-control" id="#weight" <?php if ($productType == "Book") echo "required"; ?> name="weight" value="<?php echo $weight; ?>">
                     <div class="invalid-feedback">Valid weight is required</div>
                     <small class="form-text text-muted">Please, provide weight</small>
                 </div>
                 <div id="dimensions-section" class="hidden">
                     <div class="form-group">
                         <label for="height">Height (cm):</label>
-                        <input type="text" class="form-control" id="#height"
-                            <?php if ($productType == "Furniture") echo "required"; ?> name="height"
-                            value="<?php echo $height; ?>">
+                        <input type="text" class="form-control" id="#height" <?php if ($productType == "Furniture") echo "required"; ?> name="height" value="<?php echo $height; ?>">
                         <div class="invalid-feedback">Valid height is required</div>
                     </div>
                     <div class="form-group">
                         <label for="width">Width (cm):</label>
-                        <input type="text" class="form-control" id="#width"
-                            <?php if ($productType == "Furniture") echo "required"; ?> name="width"
-                            value="<?php echo $width; ?>">
+                        <input type="text" class="form-control" id="#width" <?php if ($productType == "Furniture") echo "required"; ?> name="width" value="<?php echo $width; ?>">
                         <div class="invalid-feedback">Valid width is required</div>
                     </div>
                     <div class="form-group">
                         <label for="length">Length (cm):</label>
-                        <input type="text" class="form-control" id="#length"
-                            <?php if ($productType == "Furniture") echo "required"; ?> name="length"
-                            value="<?php echo $length; ?>">
+                        <input type="text" class="form-control" id="#length" <?php if ($productType == "Furniture") echo "required"; ?> name="length" value="<?php echo $length; ?>">
                         <div class="invalid-feedback">Valid length is required</div>
                     </div>
                     <small class="form-text text-muted">Please, provide dimensions</small>
@@ -209,44 +210,44 @@
 
 
     <script>
-    const productType = document.getElementById('#productType');
-    const sizeSection = document.getElementById('size-section');
-    const weightSection = document.getElementById('weight-section');
-    const dimensionsSection = document.getElementById('dimensions-section');
+        const productType = document.getElementById('#productType');
+        const sizeSection = document.getElementById('size-section');
+        const weightSection = document.getElementById('weight-section');
+        const dimensionsSection = document.getElementById('dimensions-section');
 
-    function updateProductType() {
-        sizeSection.classList.add('hidden');
-        weightSection.classList.add('hidden');
-        dimensionsSection.classList.add('hidden');
+        function updateProductType() {
+            sizeSection.classList.add('hidden');
+            weightSection.classList.add('hidden');
+            dimensionsSection.classList.add('hidden');
 
-        if (productType.value === 'DVD') {
-            sizeSection.classList.remove('hidden');
-        } else if (productType.value === 'Book') {
-            weightSection.classList.remove('hidden');
-        } else if (productType.value === 'Furniture') {
-            dimensionsSection.classList.remove('hidden');
+            if (productType.value === 'DVD') {
+                sizeSection.classList.remove('hidden');
+            } else if (productType.value === 'Book') {
+                weightSection.classList.remove('hidden');
+            } else if (productType.value === 'Furniture') {
+                dimensionsSection.classList.remove('hidden');
+            }
         }
-    }
 
-    productType.addEventListener('change', updateProductType);
+        productType.addEventListener('change', updateProductType);
 
-    // Initialize the form based on the current selection
-    updateProductType();
-    // (function() {
-    //     'use strict';
-    //     window.addEventListener('load', function() {
-    //         var forms = document.getElementsByClassName('needs-validation');
-    //         var validation = Array.prototype.filter.call(forms, function(form) {
-    //             form.addEventListener('submit', function(event) {
-    //                 if (form.checkValidity() === false) {
-    //                     event.preventDefault();
-    //                     event.stopPropagation();
-    //                 }
-    //                 form.classList.add('was-validated');
-    //             }, false);
-    //         });
-    //     }, false);
-    // })();
+        // Initialize the form based on the current selection
+        updateProductType();
+        // (function() {
+        //     'use strict';
+        //     window.addEventListener('load', function() {
+        //         var forms = document.getElementsByClassName('needs-validation');
+        //         var validation = Array.prototype.filter.call(forms, function(form) {
+        //             form.addEventListener('submit', function(event) {
+        //                 if (form.checkValidity() === false) {
+        //                     event.preventDefault();
+        //                     event.stopPropagation();
+        //                 }
+        //                 form.classList.add('was-validated');
+        //             }, false);
+        //         });
+        //     }, false);
+        // })();
     </script>
 </body>
 

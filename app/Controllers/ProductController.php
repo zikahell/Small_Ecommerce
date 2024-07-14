@@ -17,30 +17,75 @@ class ProductController extends ValidatorController
     }
     public function store()
     {
-
         $sku = $this->testInput($_POST['sku']);
         $name = $this->testInput($_POST['name']);
         $price = (int) $this->testInput($_POST['price']);
         $productType = $this->testInput($_POST['productType']);
         //validation
         if (empty($sku) || empty($name)  || empty($productType)) {
-            echo "Please, submit required data\n";
+            echo "Please, submit required data";
+            die();
         } elseif (!$this->validateString($sku) || !$this->validateString($name)  || !$this->validateString($productType)) {
-            echo "Please, provide the data of indicated type\n";
+            echo "Please, provide the data of indicated type";
+            die();
         }
+        //store
         if ($productType == 'Book') {
-            $weight = empty((int) $this->testInput($_POST['weight'])) ? 'Please, submit required data\n' : (int) $this->testInput($_POST['weight']);
+            if (empty($this->testInput($_POST['weight']))) {
+                echo "Please, submit required data";
+                die();
+            }
+            $weight = (int) $this->testInput($_POST['weight']);
             if (!$this->validateNumber($weight) || !$this->validateNumber($price)) {
-                echo "Please, provide the data of indicated type\n";
+                echo "Please, provide the data of indicated type";
+                die();
             }
             $book = new Book();
             $dataProduct = array("sku" => $sku, "name" => $name, "price" => $price, "product_type" => $productType);
-            $dataBook = ["product_id" => $sku, "weight_kg" => $weight];
-            // if ($book->store('products', $dataProduct && $book->storeBook('books', $dataBook))) {
-            //     echo 'created';
-            // }
+            $dataBook = array("product_id" => $sku, "weight_kg" => $weight);
+            if (!$book->store($dataProduct)) {
+                echo "SKU is already exist !";
+                die();
+            }
+            $book->storeBook('books', $dataBook);
         } elseif ($productType == 'DVD') {
+            if (empty($this->testInput($_POST['size']))) {
+                echo "Please, submit required data";
+                die();
+            }
+            $size = (int) $this->testInput($_POST['size']);
+            if (!$this->validateNumber($size) || !$this->validateNumber($price)) {
+                echo "Please, provide the data of indicated type";
+                die();
+            }
+            $dvd = new DVD();
+            $dataProduct = array("sku" => $sku, "name" => $name, "price" => $price, "product_type" => $productType);
+            $dataDvd = array("product_id" => $sku, "size_mb" => $size);
+            if (!$dvd->store($dataProduct)) {
+                echo "SKU is already exist !";
+                die();
+            }
+            $dvd->storeDvd('dvds', $dataDvd);
         } else {
+            if (empty($this->testInput($_POST['length'])) || empty($this->testInput($_POST['width'])) || empty($this->testInput($_POST['height']))) {
+                echo "Please, submit required data";
+                die();
+            }
+            $length = (int) $this->testInput($_POST['length']);
+            $width = (int) $this->testInput($_POST['width']);
+            $height = (int) $this->testInput($_POST['height']);
+            if (!$this->validateNumber($length) || !$this->validateNumber($width) || !$this->validateNumber($height) || !$this->validateNumber($price)) {
+                echo "Please, provide the data of indicated type";
+                die();
+            }
+            $furniture = new Furniture();
+            $dataProduct = array("sku" => $sku, "name" => $name, "price" => $price, "product_type" => $productType);
+            $dataFurniture = array("product_id" => $sku, "length_cm" => $length, "width_cm" => $width, "height_cm" => $height);
+            if (!$furniture->store($dataProduct)) {
+                echo "SKU is already exist !";
+                die();
+            }
+            $furniture->storeFurniture('furniture', $dataFurniture);
         }
     }
 }

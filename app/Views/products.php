@@ -49,8 +49,9 @@
 
             <h2>Product List</h2>
             <div class="d-flex justify-content-end align-items-center mb-3">
-                <a href="<?php url('product/add-product') ?>" class="btn btn-info" style="margin-right: 10px;">ADD</a>
-                <a href="<?php url('') ?>" class="btn btn-danger" style="margin-right: 10px;"
+                <a href="<?php echo url('product/add-product') ?>" class="btn btn-info"
+                    style="margin-right: 10px;">ADD</a>
+                <a href="<?php echo url('') ?>" class="btn btn-danger" style="margin-right: 10px;"
                     id=".delete-product-btn">MASS DELETE</a>
 
             </div>

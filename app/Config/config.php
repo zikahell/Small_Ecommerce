@@ -9,5 +9,5 @@ define("DBNAME", "company");
 
 function url($url = '')
 {
-    echo BURL . $url;
+    return BURL . $url;
 }

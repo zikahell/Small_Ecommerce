@@ -3,7 +3,7 @@
 
 abstract class Product extends DB
 {
-    protected $table;
+    protected $table = 'products';
     protected $conn;
 
     public function __construct()
@@ -14,8 +14,8 @@ abstract class Product extends DB
     {
         return $this->conn->get('employee');
     }
-    public function store($table, $data)
+    public function store($data)
     {
-        return $this->conn->insert($table, $data);
+        return $this->conn->insert($this->table, $data);
     }
 }
