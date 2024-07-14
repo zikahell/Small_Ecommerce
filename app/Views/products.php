@@ -19,13 +19,6 @@
             /* Added for checkbox positioning */
         }
 
-        .delete-checkbox {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-
-        }
-
         .card-title {
             font-size: 18px;
             font-weight: bold;
@@ -61,7 +54,7 @@
                     <div class="col">
                         <div class="card">
                             <input type="checkbox" name="selected[]" value="
-                            <?= $product['sku']; ?>" class=".delete-checkbox">
+                            <?= $product['sku']; ?>" style="position: absolute; top: 5px; left: 5px;" class=".delete-checkbox">
                             <h5 class="card-title"><?= $product['sku'] ?></h5>
                             <p class="card-text"><?= $product['name'] ?></p>
                             <p class="card-text"><?= $product['price'] ?> $</p>
