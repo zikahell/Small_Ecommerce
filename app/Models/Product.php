@@ -12,10 +12,15 @@ abstract class Product extends DB
     }
     public function getAllProducts()
     {
-        return $this->conn->get('employee');
+        return $this->conn->get('products');
     }
     public function store($data)
     {
         return $this->conn->insert($this->table, $data);
+    }
+    public function deleteProduct($sku)
+    {
+        $this->conn->where('sku', $sku);
+        return $this->conn->delete('products');
     }
 }

@@ -7,4 +7,8 @@ class Furniture extends Product
     {
         return $this->conn->insert($table, $data);
     }
+    public function getFurniture()
+    {
+        return $this->conn->get('furniture');
+    }
 }

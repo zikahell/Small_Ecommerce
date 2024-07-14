@@ -5,9 +5,13 @@ class ProductController extends ValidatorController
 {
     public function index()
     {
-        $emp = new Book();
-        $data['employees'] = $emp->getAllProducts();
-
+        $book = new Book();
+        $dvd = new DVD();
+        $furniture = new Furniture();
+        $data['products'] = $book->getAllProducts();
+        $data['books'] = $book->getBooks();
+        $data['dvds'] = $dvd->getDvds();
+        $data['furnitures'] = $furniture->getFurniture();
         View::load('products', $data);
     }
 
@@ -86,6 +90,18 @@ class ProductController extends ValidatorController
                 die();
             }
             $furniture->storeFurniture('furniture', $dataFurniture);
+        }
+    }
+    public function delete()
+    {
+        if (isset($_POST['submit'])) {
+            $book = new Book();
+            $selected = $_POST['selected'];
+            for ($i = 0; $i < count($_POST['selected']); $i++) {
+                $book->deleteProduct(trim($selected[$i]));
+            }
+
+            header('Location:' . BURL);
         }
     }
 }

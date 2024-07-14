@@ -10,4 +10,8 @@ class DVD extends Product
     {
         return $this->conn->insert($table, $data);
     }
+    public function getDvds()
+    {
+        return $this->conn->get('dvds');
+    }
 }
