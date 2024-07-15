@@ -16,7 +16,7 @@ class App
     {
         error_reporting(E_ALL ^ E_WARNING);
         $u = $_SERVER["REDIRECT_URL"];
-        $u = explode("/", trim($_SERVER['REDIRECT_URL'], '/'));
+        $u = explode("/", trim($_SERVER['REDIRECT_URL'] ?? '', '/'));
         $this->controller = !empty($u[0]) ? ucwords($u[0]) . 'Controller' : 'ProductController';
         $this->action = isset($u[1]) ? $u[1] : 'index';
         $this->params = isset($u[2]) ? array_slice($u, 2) : [];

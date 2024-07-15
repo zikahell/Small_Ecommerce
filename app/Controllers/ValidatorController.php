@@ -6,7 +6,7 @@ abstract class ValidatorController
 {
     protected function testInput($data)
     {
-        $data = trim($data);
+        $data = trim($data ?? '');
         $data = htmlspecialchars($data);
         return $data;
     }

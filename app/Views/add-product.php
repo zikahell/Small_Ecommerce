@@ -20,12 +20,16 @@
             type: "post",
             url: "store",
             data: $(this).serialize(),
-            dataType: "text",
+            dataType: "html",
             success: function(response) {
-                if (response === "SKU is already exist !" || response ===
-                    "Please, provide the data of indicated type" || response ===
-                    "Please, submit required data") {
-                    alert(response)
+                if (response ==
+                    "<div id='Invalid_Input' class='alert alert-danger'>SKU is already exist !</div>" ||
+                    response ==
+                    "<div id='Invalid_Input' class='alert alert-danger'>Please, submit required data</div>" ||
+                    response ==
+                    "<div id='Invalid_Input' class='alert alert-danger'>Please, provide the data of indicated type</div>"
+                    ) {
+                    $('.invalid-response').html(response)
 
                 } else {
                     $request.abort()
@@ -131,9 +135,11 @@
         // }
         ?>
 
+        <div class="invalid-response"></div>
 
 
-        <form method="post" action="" class="needs-validation" novalidate>
+
+        <form id="product_form" method="post" action="" class="needs-validation" novalidate>
             <hr>
             <div class="d-flex justify-content-end align-items-center mb-3">
                 <button class="btn btn-info" type="submit" name="submit" style="margin-right: 10px;">Save</button>
@@ -141,29 +147,29 @@
             </div>
             <div class="form-group">
                 <label for="sku">SKU:</label>
-                <input type="text" class="form-control" id="#sku" name="sku" value="<?php echo $sku; ?>" required>
-                <div class="invalid-feedback">SKU is required</div>
+                <input type="text" class="form-control" id="sku" name="sku" value="<?php echo $sku; ?>" required>
+                <div class="invalid-feedback"></div>
             </div>
 
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="#name" name="name" value="<?php echo $name; ?>" required>
-                <div class="invalid-feedback">Name is required</div>
+                <input type="text" class="form-control" id="name" name="name" value="<?php echo $name; ?>" required>
+                <div class="invalid-feedback"></div>
             </div>
 
             <div class="form-group">
                 <label for="price">Price:</label>
-                <input type="text" class="form-control" id="#price" name="price" value="<?php echo $price; ?>" required>
+                <input type="text" class="form-control" id="price" name="price" value="<?php echo $price; ?>" required>
                 <div class="invalid-feedback">Valid price is required</div>
             </div>
 
             <div class="form-group">
                 <label for="productType">Product Type:</label>
-                <select class="form-control" id="#productType" name="productType" required>
+                <select class="form-control" id="productType" name="productType" required>
                     <option value="" disabled selected>Select type</option>
-                    <option id="#DVD" <?php if ($productType == "DVD") echo "selected"; ?> required>DVD</option>
-                    <option id="#Book" <?php if ($productType == "Book") echo "selected"; ?>required>Book</option>
-                    <option id="#Furniture" <?php if ($productType == "Furniture") echo "selected"; ?>required>
+                    <option id="DVD" <?php if ($productType == "DVD") echo "selected"; ?> required>DVD</option>
+                    <option id="Book" <?php if ($productType == "Book") echo "selected"; ?>required>Book</option>
+                    <option id="Furniture" <?php if ($productType == "Furniture") echo "selected"; ?>required>
                         Furniture
                     </option>
                 </select>
@@ -173,14 +179,14 @@
             <div id="type-specific">
                 <div id="size-section" class="form-group hidden">
                     <label for="size">Size (MB):</label>
-                    <input type="text" class="form-control" id="#size"
+                    <input type="text" class="form-control" id="size"
                         <?php if ($productType == "DVD") echo "required"; ?> name="size" value="<?php echo $size; ?>">
                     <div class="invalid-feedback">Valid size is required</div>
                     <small class="form-text text-muted">Please, provide size</small>
                 </div>
                 <div id="weight-section" class="form-group hidden">
                     <label for="weight">Weight (Kg):</label>
-                    <input type="text" class="form-control" id="#weight"
+                    <input type="text" class="form-control" id="weight"
                         <?php if ($productType == "Book") echo "required"; ?> name="weight"
                         value="<?php echo $weight; ?>">
                     <div class="invalid-feedback">Valid weight is required</div>
@@ -189,21 +195,21 @@
                 <div id="dimensions-section" class="hidden">
                     <div class="form-group">
                         <label for="height">Height (cm):</label>
-                        <input type="text" class="form-control" id="#height"
+                        <input type="text" class="form-control" id="height"
                             <?php if ($productType == "Furniture") echo "required"; ?> name="height"
                             value="<?php echo $height; ?>">
                         <div class="invalid-feedback">Valid height is required</div>
                     </div>
                     <div class="form-group">
                         <label for="width">Width (cm):</label>
-                        <input type="text" class="form-control" id="#width"
+                        <input type="text" class="form-control" id="width"
                             <?php if ($productType == "Furniture") echo "required"; ?> name="width"
                             value="<?php echo $width; ?>">
                         <div class="invalid-feedback">Valid width is required</div>
                     </div>
                     <div class="form-group">
                         <label for="length">Length (cm):</label>
-                        <input type="text" class="form-control" id="#length"
+                        <input type="text" class="form-control" id="length"
                             <?php if ($productType == "Furniture") echo "required"; ?> name="length"
                             value="<?php echo $length; ?>">
                         <div class="invalid-feedback">Valid length is required</div>
@@ -219,7 +225,7 @@
 
 
     <script>
-    const productType = document.getElementById('#productType');
+    const productType = document.getElementById('productType');
     const sizeSection = document.getElementById('size-section');
     const weightSection = document.getElementById('weight-section');
     const dimensionsSection = document.getElementById('dimensions-section');
@@ -241,7 +247,7 @@
     productType.addEventListener('change', updateProductType);
 
     // Initialize the form based on the current selection
-    updateProductType();
+    // updateProductType();
     // (function() {
     //     'use strict';
     //     window.addEventListener('load', function() {
